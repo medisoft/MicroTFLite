@@ -73,13 +73,16 @@ void setup()
 
     Serial.println();
     Serial.println("Init model..");
-    if (!modelInit(model, tensorArena, tensorArenaSize))
+    if (!ModelInit(model, tensorArena, tensorArenaSize))
     {
         Serial.println("Model initialization failed!");
         while (true)
             ;
     }
     Serial.println("Model initialization done.");
+    ModelPrintMetadata();
+    ModelPrintTensorQuantizationParams();
+    ModelPrintTensorInfo();
 }
 
 void loop()
@@ -126,19 +129,19 @@ void loop()
 
             // put the 6 values of current sample in the proper position
             // in the input tensor of the model
-            modelSetInput(aX, samplesRead * 6 + 0);
-            modelSetInput(aY, samplesRead * 6 + 1);
-            modelSetInput(aZ, samplesRead * 6 + 2);
-            modelSetInput(gX, samplesRead * 6 + 3);
-            modelSetInput(gY, samplesRead * 6 + 4);
-            modelSetInput(gZ, samplesRead * 6 + 5);
+            ModelSetInput(aX, samplesRead * 6 + 0);
+            ModelSetInput(aY, samplesRead * 6 + 1);
+            ModelSetInput(aZ, samplesRead * 6 + 2);
+            ModelSetInput(gX, samplesRead * 6 + 3);
+            ModelSetInput(gY, samplesRead * 6 + 4);
+            ModelSetInput(gZ, samplesRead * 6 + 5);
 
             samplesRead++;
 
             // if all samples are got, run inference
             if (samplesRead == numSamples)
             {
-                if (!modelRunInference())
+                if (!ModelRunInference())
                 {
                     Serial.println("RunInference Failed!");
                     return;
@@ -149,7 +152,7 @@ void loop()
                 {
                     Serial.print(GESTURES[i]);
                     Serial.print(": ");
-                    Serial.print(modelGetOutput(i) * 100, 2);
+                    Serial.print(ModelGetOutput(i) * 100, 2);
                     Serial.println("%");
                 }
                 Serial.println();

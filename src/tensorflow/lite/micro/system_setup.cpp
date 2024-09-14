@@ -78,7 +78,7 @@ namespace test_over_serial
         }
     }
 
-    class _RingBuffer : public RingBufferTF<kSerialMaxInputLength + 1>
+    class _RingBuffer : public RingBufferN<kSerialMaxInputLength + 1>
     {
     public:
         bool need_reset = false;
