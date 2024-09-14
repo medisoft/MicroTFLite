@@ -24,7 +24,7 @@ limitations under the License.
 #include "Arduino.h"
 
 #ifndef ARDUINO_ARCH_MBED
-#include "system_RingBufferTF.h"
+#include "RingBufferTF.h"
 using namespace arduino;
 #endif
 
