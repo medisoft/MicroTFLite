@@ -1,17 +1,14 @@
 # Preventative Maintenance Example
 
-This sketch is an example of using sensor data to predict component failure. It is somewhat contrived and is provided to illustrate the ability of the **ArduinoTFLite** library to handle quantized and multiple input variables. Its purpose is to provide an example of the structure of a typical classification program that uses a pre-trained neural network model, whose *inference* algorithm (i.e. input classification) is executed using the **TensorFlow Lite Micro library**.
+This sketch is an example of using sensor data to predict component failure. It is somewhat contrived and is provided to illustrate the ability of the **MicroTFLite** library to handle quantized and multiple input variables. Its purpose is to provide an example of the structure of a typical classification program that uses a pre-trained neural network model, whose _inference_ algorithm (i.e. input classification) is executed using the **TensorFlow Lite Micro library**.
 
 On the board we emulate the sensor readings; this is for the convenience of those who do not have the appropriate sensors, but there is no reason why the emulation could not be replaced by actual sensor readings.
 
-
-The **ArduinoTFLite** library handles models where values can be represented with *float* numbers or in a quantized form, but in this example we are using quantized data.
+The **MicroTFLite** library handles models where values can be represented with _float_ numbers or in a quantized form, but in this example we are using quantized data.
 
 The generation of the data is described in detail [here](https://github.com/johnosbb/Artificial-intelligence/tree/main/Embedded/PreventativeMaintenance)
 
-
-The binary file in *.tflite* format, containing the trained model, has been transformed into a constant char array so that it can be loaded into memory directly at compile time. In TensorFlow Lite applications developed on devices with an external file system, such as smartphones and single-board computers (e.g., Raspberry Pi), the model is stored on the external disk or SD Card as a binary file with a *.tflite* extension and subsequently loaded into memory at runtime during the initialization phase. To enable Arduino boards, which lack an external file system, to use the model, the contents of the .tflite file have been included within an array that is compiled along with the code. This array, named *model*, is declared and initialized in **model.h** file.
-
+The binary file in _.tflite_ format, containing the trained model, has been transformed into a constant char array so that it can be loaded into memory directly at compile time. In TensorFlow Lite applications developed on devices with an external file system, such as smartphones and single-board computers (e.g., Raspberry Pi), the model is stored on the external disk or SD Card as a binary file with a _.tflite_ extension and subsequently loaded into memory at runtime during the initialization phase. To enable Arduino boards, which lack an external file system, to use the model, the contents of the .tflite file have been included within an array that is compiled along with the code. This array, named _model_, is declared and initialized in **model.h** file.
 
 ## Model Information
 
@@ -22,15 +19,19 @@ The binary file in *.tflite* format, containing the trained model, has been tran
 This example demonstrates a feedforward neural network implemented using TensorFlow's Keras API. The network is designed to handle a binary classification problem with a balanced or imbalanced dataset. The model consists of the following layers:
 
 1. **Input Layer**:
+
    - **Dense Layer**: A fully connected layer with `NUMBER_OF_FEATURES` units. This layer uses the ReLU activation function (`relu`) and is initialized with the shape of `(len(f_names),)`, where `len(f_names)` represents the number of features in the input data.
 
 2. **Dropout Layer**:
+
    - **Dropout Layer**: A dropout layer with a dropout rate of 0.3. This layer randomly sets a fraction of input units to 0 during training to help prevent overfitting.
 
 3. **Hidden Layer**:
+
    - **Dense Layer**: A fully connected layer with 16 units and ReLU activation (`relu`). This layer introduces non-linearity and allows the network to learn complex patterns.
 
 4. **Dropout Layer**:
+
    - **Dropout Layer**: Another dropout layer with a dropout rate of 0.3, used to further regularize the network and prevent overfitting.
 
 5. **Output Layer**:
@@ -41,6 +42,7 @@ The model summary is displayed using `model.summary()`, which provides details a
 #### Model Compilation
 
 The model is compiled with the following settings:
+
 - **Loss Function**: `binary_crossentropy` - This loss function is appropriate for binary classification tasks, as it measures the performance of the model based on how well it predicts the class labels.
 - **Optimizer**: `adam` - An adaptive learning rate optimizer that helps the model converge faster and achieve better performance.
 - **Metrics**: `accuracy` - The model's performance is evaluated based on accuracy, which measures the proportion of correctly predicted instances.
@@ -52,6 +54,7 @@ To address class imbalance, class weights are computed using the `class_weight.c
 #### Training the Model
 
 The model is trained using the `fit` method with the following parameters:
+
 - **Training Data**: `X_train_balanced_scaled` and `y_train_balanced` - Scaled and balanced training features and labels.
 - **Validation Data**: `X_validate_scaled` and `y_validate` - Scaled validation features and labels, used to evaluate the model's performance during training.
 - **Epochs**: `NUM_EPOCHS` - The number of epochs to train the model.
@@ -72,15 +75,19 @@ The `checkFailureConditions` function performs a series of checks to verify the 
 #### How `checkFailureConditions` Works
 
 1. **Model Output Validation**:
+
    - The function compares the output of the quantized model against expected results or a baseline reference. This comparison helps ensure that the quantization process has not introduced significant deviations in model predictions.
 
 2. **Input Data Checks**:
+
    - It verifies that the input data provided to the model is correctly processed and fed into the quantized model. This includes checking data preprocessing steps to confirm that they align with what the model expects.
 
 3. **Quantization Error Analysis**:
+
    - `checkFailureConditions` evaluates the impact of quantization on the model’s performance. It assesses any potential errors or artifacts introduced during quantization, which can affect the model's accuracy and reliability.
 
 4. **Hardware-Specific Validation**:
+
    - The function tests the model's performance on the actual hardware to ensure compatibility and correctness. This involves running the model on the board and checking for any hardware-specific issues, such as memory constraints or processing limitations.
 
 5. **Logging and Reporting**:
@@ -101,3 +108,4 @@ if (!checkFailureConditions()) {
 } else {
     Serial.println("Model validation successful.");
 }
+```

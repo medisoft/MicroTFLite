@@ -1,20 +1,22 @@
-#include "ArduinoTFLite.h"
+#include "MicroTFLite.h"
 
 // TensorFlow Lite components
 tflite::AllOpsResolver tflOpsResolver;
-const tflite::Model* tflModel = nullptr;
-tflite::MicroInterpreter* tflInterpreter = nullptr;
-TfLiteTensor* tflInputTensor = nullptr;
-TfLiteTensor* tflOutputTensor = nullptr;
+const tflite::Model *tflModel = nullptr;
+tflite::MicroInterpreter *tflInterpreter = nullptr;
+TfLiteTensor *tflInputTensor = nullptr;
+TfLiteTensor *tflOutputTensor = nullptr;
 float tflInputScale = 0.0f;
 int32_t tflInputZeroPoint = 0;
 float tflOutputScale = 0.0f;
 int32_t tflOutputZeroPoint = 0;
 
 // Initializes the TensorFlow Lite model and interpreter
-bool ModelInit(const unsigned char* model, byte* tensorArena, int tensorArenaSize) {
+bool ModelInit(const unsigned char *model, byte *tensorArena, int tensorArenaSize)
+{
     tflModel = tflite::GetModel(model);
-    if (tflModel->version() != TFLITE_SCHEMA_VERSION) {
+    if (tflModel->version() != TFLITE_SCHEMA_VERSION)
+    {
         Serial.println("Model schema version mismatch!");
         return false;
     }
@@ -25,7 +27,8 @@ bool ModelInit(const unsigned char* model, byte* tensorArena, int tensorArenaSiz
     tflOutputTensor = tflInterpreter->output(0);
 
     // Ensure tensors are initialized
-    if (tflInputTensor == nullptr || tflOutputTensor == nullptr) {
+    if (tflInputTensor == nullptr || tflOutputTensor == nullptr)
+    {
         Serial.println("Tensors are not initialized.");
         return false;
     }
@@ -39,12 +42,16 @@ bool ModelInit(const unsigned char* model, byte* tensorArena, int tensorArenaSiz
 }
 
 // Prints metadata about the model, such as description and version
-void ModelPrintMetadata() {
-    if (tflModel->description() != nullptr) {
-        const flatbuffers::String* description = tflModel->description();
+void ModelPrintMetadata()
+{
+    if (tflModel->description() != nullptr)
+    {
+        const flatbuffers::String *description = tflModel->description();
         Serial.print("Model Description: ");
         Serial.println(description->str().c_str());
-    } else {
+    }
+    else
+    {
         Serial.println("No model description available.");
     }
     Serial.print("Model Version: ");
@@ -52,8 +59,10 @@ void ModelPrintMetadata() {
 }
 
 // Prints information about the tensors, including type and dimensions
-void ModelPrintTensorInfo() {
-    if (tflInputTensor == nullptr || tflOutputTensor == nullptr) {
+void ModelPrintTensorInfo()
+{
+    if (tflInputTensor == nullptr || tflOutputTensor == nullptr)
+    {
         Serial.println("Tensors are not initialized.");
         return;
     }
@@ -63,9 +72,11 @@ void ModelPrintTensorInfo() {
     Serial.print("Type: ");
     Serial.println(tflInputTensor->type == kTfLiteFloat32 ? "float32" : "int8");
     Serial.print("Dimensions: ");
-    for (int i = 0; i < tflInputTensor->dims->size; ++i) {
+    for (int i = 0; i < tflInputTensor->dims->size; ++i)
+    {
         Serial.print(tflInputTensor->dims->data[i]);
-        if (i < tflInputTensor->dims->size - 1) Serial.print(" x ");
+        if (i < tflInputTensor->dims->size - 1)
+            Serial.print(" x ");
     }
     Serial.println();
 
@@ -74,16 +85,20 @@ void ModelPrintTensorInfo() {
     Serial.print("Type: ");
     Serial.println(tflOutputTensor->type == kTfLiteFloat32 ? "float32" : "int8");
     Serial.print("Dimensions: ");
-    for (int i = 0; i < tflOutputTensor->dims->size; ++i) {
+    for (int i = 0; i < tflOutputTensor->dims->size; ++i)
+    {
         Serial.print(tflOutputTensor->dims->data[i]);
-        if (i < tflOutputTensor->dims->size - 1) Serial.print(" x ");
+        if (i < tflOutputTensor->dims->size - 1)
+            Serial.print(" x ");
     }
     Serial.println();
 }
 
 // Prints the quantization parameters for the input and output tensors
-void ModelPrintTensorQuantizationParams() {
-    if (tflInputTensor == nullptr || tflOutputTensor == nullptr) {
+void ModelPrintTensorQuantizationParams()
+{
+    if (tflInputTensor == nullptr || tflOutputTensor == nullptr)
+    {
         Serial.println("Tensors are not initialized.");
         return;
     }
@@ -104,20 +119,24 @@ void ModelPrintTensorQuantizationParams() {
 // Quantizes a float value for int8 tensors
 // In quantization, floating-point values (e.g., activations or weights in the model) are mapped to integer values (e.g., 8-bit integers) for efficiency.
 // The scale and zero-point are used to convert between the floating-point and integer domains.
-inline int8_t QuantizeInput(float x, float scale, float zeroPoint) {
+inline int8_t QuantizeInput(float x, float scale, float zeroPoint)
+{
     float quantizedFloat = (x / scale) + zeroPoint;
     int8_t quantizedValue = static_cast<int8_t>(quantizedFloat);
     return quantizedValue;
 }
 
 // Dequantizes an int8 value to a float
-inline float DequantizeOutput(int8_t quantizedValue, float scale, float zeroPoint) {
+inline float DequantizeOutput(int8_t quantizedValue, float scale, float zeroPoint)
+{
     return ((float)quantizedValue - zeroPoint) * scale;
 }
 
 // Sets the input tensor with a given value, handling quantization if needed
-bool ModelSetInput(float inputValue, int index, bool showQuantizedValue) {
-    if (tflInputTensor == nullptr || index >= tflInputTensor->dims->data[1]) {
+bool ModelSetInput(float inputValue, int index, bool showQuantizedValue)
+{
+    if (tflInputTensor == nullptr || index >= tflInputTensor->dims->data[1])
+    {
         Serial.print("Input tensor index out of range!: ");
         Serial.print(index);
         Serial.print(" Range: ");
@@ -125,10 +144,12 @@ bool ModelSetInput(float inputValue, int index, bool showQuantizedValue) {
         return false;
     }
 
-    if (tflInputTensor->type == kTfLiteInt8) {
+    if (tflInputTensor->type == kTfLiteInt8)
+    {
         int8_t quantizedValue = QuantizeInput(inputValue, tflInputScale, tflInputZeroPoint);
         tflInputTensor->data.int8[index] = quantizedValue;
-        if (showQuantizedValue) {
+        if (showQuantizedValue)
+        {
             Serial.print("Quantized value for index: ");
             Serial.print(index);
             Serial.print(" : ");
@@ -136,9 +157,13 @@ bool ModelSetInput(float inputValue, int index, bool showQuantizedValue) {
             Serial.print(" , input : ");
             Serial.println(inputValue);
         }
-    } else if (tflInputTensor->type == kTfLiteFloat32) {
+    }
+    else if (tflInputTensor->type == kTfLiteFloat32)
+    {
         tflInputTensor->data.f[index] = inputValue;
-    } else {
+    }
+    else
+    {
         Serial.println("Unsupported input tensor type!");
         return false;
     }
@@ -147,15 +172,18 @@ bool ModelSetInput(float inputValue, int index, bool showQuantizedValue) {
 }
 
 // Prints the dimensions of the output tensor
-void ModelPrintOutputTensorDimensions() {
-    if (tflOutputTensor == nullptr || tflOutputTensor->dims->size == 0) {
+void ModelPrintOutputTensorDimensions()
+{
+    if (tflOutputTensor == nullptr || tflOutputTensor->dims->size == 0)
+    {
         Serial.println("Output tensor is null or has no dimensions!");
         return;
     }
 
     Serial.print("Output tensor dimensions: ");
     Serial.println(tflOutputTensor->dims->size);
-    for (int i = 0; i < tflOutputTensor->dims->size; ++i) {
+    for (int i = 0; i < tflOutputTensor->dims->size; ++i)
+    {
         Serial.print("Output Dimension ");
         Serial.print(i);
         Serial.print(": ");
@@ -164,8 +192,10 @@ void ModelPrintOutputTensorDimensions() {
 }
 
 // Prints the dimensions of the input tensor
-void ModelPrintInputTensorDimensions() {
-    if (tflInputTensor == nullptr) {
+void ModelPrintInputTensorDimensions()
+{
+    if (tflInputTensor == nullptr)
+    {
         Serial.println("Input tensor is null!");
         return;
     }
@@ -173,7 +203,8 @@ void ModelPrintInputTensorDimensions() {
     Serial.print("Input tensor dimensions: ");
     Serial.println(tflInputTensor->dims->size);
 
-    for (int i = 0; i < tflInputTensor->dims->size; ++i) {
+    for (int i = 0; i < tflInputTensor->dims->size; ++i)
+    {
         Serial.print("Dimension ");
         Serial.print(i);
         Serial.print(": ");
@@ -182,9 +213,11 @@ void ModelPrintInputTensorDimensions() {
 }
 
 // Runs inference on the model
-bool ModelRunInference() {
+bool ModelRunInference()
+{
     TfLiteStatus invokeStatus = tflInterpreter->Invoke();
-    if (invokeStatus != kTfLiteOk) {
+    if (invokeStatus != kTfLiteOk)
+    {
         Serial.println("Inference failed!");
         return false;
     }
@@ -192,18 +225,25 @@ bool ModelRunInference() {
 }
 
 // Retrieves the output value from the model
-float ModelGetOutput(int index) {
-    if (tflOutputTensor == nullptr || index >= tflOutputTensor->dims->data[1]) {
+float ModelGetOutput(int index)
+{
+    if (tflOutputTensor == nullptr || index >= tflOutputTensor->dims->data[1])
+    {
         Serial.println("Output tensor index out of range!");
         return -1;
     }
 
-    if (tflOutputTensor->type == kTfLiteInt8) {
+    if (tflOutputTensor->type == kTfLiteInt8)
+    {
         int8_t quantizedValue = tflOutputTensor->data.int8[index];
         return DequantizeOutput(quantizedValue, tflOutputScale, tflOutputZeroPoint);
-    } else if (tflOutputTensor->type == kTfLiteFloat32) {
+    }
+    else if (tflOutputTensor->type == kTfLiteFloat32)
+    {
         return tflOutputTensor->data.f[index];
-    } else {
+    }
+    else
+    {
         Serial.println("Unsupported output tensor type!");
         return -1;
     }

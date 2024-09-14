@@ -1,6 +1,6 @@
-# ArduinoTFLite Library Documentation
+# MicroTFLite Library Documentation
 
-This document provides a detailed description of the ArduinoTFLite abstraction layer.
+This document provides a detailed description of the MicroTFLite abstraction layer.
 
 ### **Function**
 

@@ -2,13 +2,13 @@
 #define ARDUINOTFLITE_H
 
 #include <Arduino.h>
-#include <ArduinoTensorFlowLite.h>
+#include <MicroTensorFlowLite.h>
 #include <tensorflow/lite/micro/all_ops_resolver.h>
 #include <tensorflow/lite/micro/micro_interpreter.h>
 #include <tensorflow/lite/schema/schema_generated.h>
 
 // Initializes the TensorFlow Lite model and interpreter
-bool ModelInit(const unsigned char* model, byte* tensorArena, int tensorArenaSize);
+bool ModelInit(const unsigned char *model, byte *tensorArena, int tensorArenaSize);
 
 // Sets the input tensor with a given value, handling quantization if needed
 bool ModelSetInput(float inputValue, int index, bool showQuantizedValue = false);
