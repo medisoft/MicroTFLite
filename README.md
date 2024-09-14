@@ -1,4 +1,4 @@
-# MicroTensorFlowLite
+# MicroTFLite
 
 ## A TensorFlow Lite Micro Library in Arduino Style
 
@@ -11,28 +11,28 @@ It can work with quantized data or raw float values, detecting the appropriate p
 
 ## Architecture
 
-MicroTensorFlowLite consists of an Arduino style abstraction called **MicroTFLite** and a port of TensorFlow Lite for Arduino type boards.
+MicroTFLite consists of an Arduino style abstraction called **MicroTFLite** and a port of TensorFlow Lite for Arduino type boards.
 
 ## Installation
 
-To install the in-development version of this library, you can use the latest version directly from the [GitHub repository](https://github.com/johnosbb/MicroTensorFlowLite). This requires you clone the repo into the folder that holds libraries for the Arduino IDE.
+To install the in-development version of this library, you can use the latest version directly from the [GitHub repository](https://github.com/johnosbb/MicroTFLite). This requires you clone the repo into the folder that holds libraries for the Arduino IDE.
 
 Once you're in that folder in the terminal, you can then grab the code using the git command line tool:
 
 ```
-git clone https://github.com/johnosbb/MicroTensorFlowLite MicroTensorFlowLite
+git clone https://github.com/johnosbb/MicroTFLite MicroTFLite
 ```
 
 To update your clone of the repository to the latest code, use the following terminal commands:
 
 ```
-cd MicroTensorFlowLite
+cd MicroTFLite
 git pull
 ```
 
 ## Checking your Installation
 
-Once the library has been installed, you should then start the Arduino IDE. You will now see an `MicroTensorFlowLite` entry in the `File -> Examples` menu of the Arduino IDE. This submenu contains a list of sample projects you can try out. These examples show the abstraction layer in use.
+Once the library has been installed, you should then start the Arduino IDE. You will now see an `MicroTFLite` entry in the `File -> Examples` menu of the Arduino IDE. This submenu contains a list of sample projects you can try out. These examples show the abstraction layer in use.
 
 ## API Guide
 
@@ -58,7 +58,7 @@ The examples included with the library show how to use the library. The examples
 
 ### GitHub
 
-The officially supported TensorFlow Lite Micro library for Arduino resides in the [tflite-micro-arduino-examples](https://github.com/tensorflow/tflite-micro-arduino-examples). This library is a fork of that project with the necessary refactoring required to allow the code build in an Arduino IDE environment. The latest version of this library can be found in the repository [MicroTensorFlowLite](https://github.com/johnosbb/MicroTensorFlowLite)
+The officially supported TensorFlow Lite Micro library for Arduino resides in the [tflite-micro-arduino-examples](https://github.com/tensorflow/tflite-micro-arduino-examples). This library is a fork of that project with the necessary refactoring required to allow the code build in an Arduino IDE environment. The latest version of this library can be found in the repository [MicroTFLite](https://github.com/johnosbb/MicroTFLite)
 
 ## Compatibility
 
@@ -70,4 +70,4 @@ This code is made available under the Apache 2 license.
 
 ## Contributing
 
-Forks of this library are welcome and encouraged. If you have bug reports or fixes to contribute, the source of this code is at [https://github.com/johnosbb/MicroTensorFlowLite](https://github.com/johnosbb/MicroTensorFlowLite) and all issues and pull requests should be directed there.
+Forks of this library are welcome and encouraged. If you have bug reports or fixes to contribute, the source of this code is at [https://github.com/johnosbb/MicroTFLite](https://github.com/johnosbb/MicroTFLite) and all issues and pull requests should be directed there.
