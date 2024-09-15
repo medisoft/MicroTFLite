@@ -1,6 +1,6 @@
 /*
   Gesture Classifier
-  This sketch demonstrates the use of the ArduTFLite library to recognize the two gestures "punch" and "flex"
+  This sketch demonstrates the use of the MicroTFLite library to recognize the two gestures "punch" and "flex"
   through readings from the IMU sensor integrated into the Arduino Nano 33 BLE board.
   This example is an updated variation of the famous tutorial created by Don Coleman, Sandeep Mistry,
   and Dominic Pajak in 2019.
