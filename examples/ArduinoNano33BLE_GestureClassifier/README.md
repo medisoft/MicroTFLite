@@ -2,9 +2,9 @@
 
 This example provides an updated and working version of the sketch IMU*Classifier presented in the official Arduino tutorial "\_Get Started With Machine Learning on Arduino*" that you can [view here](https://docs.arduino.cc/tutorials/nano-33-ble-sense/get-started-with-machine-learning/).
 
-The sketch has been rewritten to work with the updated version of the TensorFlow Lite Micro library through the **ArduTFLite** library APIs. The original tutorial explains the process of collecting training data and how the model was created and trained. The model.h file included in this example was pre-trained by Chirale during the preparation activities for our TinyML workshop on Arduino.
+The sketch has been rewritten to work with the updated version of the TensorFlow Lite Micro library through the **MicroTFLite** library APIs. The original tutorial explains the process of collecting training data and how the model was created and trained. The model.h file included in this example was pre-trained by Chirale during the preparation activities for our TinyML workshop on Arduino.
 
-The sketch provided is designed to classify gestures, specifically "punch" and "flex", using the ArduTFLite library and an IMU sensor integrated into the Arduino Nano 33 BLE board. It demonstrates the use of a pre-trained neural network model to recognize gestures based on IMU readings.
+The sketch provided is designed to classify gestures, specifically "punch" and "flex", using the MicroTFLite library and an IMU sensor integrated into the Arduino Nano 33 BLE board. It demonstrates the use of a pre-trained neural network model to recognize gestures based on IMU readings.
 
 ### Explanation of the Sketch
 
@@ -13,7 +13,7 @@ The sketch has several key parts, each explained below:
 ```cpp
 /*
   Gesture Classifier
-  This sketch demonstrates the use of the ArduTFLite library to recognize the two gestures "punch" and "flex"
+  This sketch demonstrates the use of the MicroTFLite library to recognize the two gestures "punch" and "flex"
   through readings from the IMU sensor integrated into the Arduino Nano 33 BLE board.
   This example is an updated variation of the famous tutorial created by Don Coleman, Sandeep Mistry,
   and Dominic Pajak in 2019.
@@ -35,7 +35,7 @@ The sketch has several key parts, each explained below:
 
 ### Comments
 
-- **Purpose**: Explains that the sketch classifies "punch" and "flex" gestures using the ArduTFLite library and IMU sensor data.
+- **Purpose**: Explains that the sketch classifies "punch" and "flex" gestures using the MicroTFLite library and IMU sensor data.
 - **Origin**: Mentions that this is an updated version of a tutorial by Don Coleman, Sandeep Mistry, and Dominic Pajak.
 - **Model**: Indicates that the pre-trained model is included in `model.h`.
 - **Boards**: Specifies compatibility with Arduino Nano 33 BLE rev 1 and rev 2 and other boards with similar IMU sensors.
@@ -54,11 +54,11 @@ The sketch has several key parts, each explained below:
 ### Library and Model Includes
 
 ```cpp
-#include <ArduTFLite.h>
+#include <MicroTFLite.h>
 #include "model.h"
 ```
 
-- **ArduTFLite**: Includes the main ArduTFLite library.
+- **MicroTFLite**: Includes the main MicroTFLite library.
 - **Model**: Includes the pre-trained model header file.
 
 ### Constants and Variables
@@ -198,4 +198,4 @@ void loop() {
 
 ### Summary
 
-This sketch demonstrates how to use the ArduTFLite library to classify gestures based on IMU sensor data. It initializes the IMU sensor, waits for significant movement, reads a predefined number of samples, normalizes the data, and runs inference using a pre-trained model to classify the gestures "punch" and "flex". The results are printed to the Serial Monitor as percentages for each gesture.
+This sketch demonstrates how to use the MicroTFLite library to classify gestures based on IMU sensor data. It initializes the IMU sensor, waits for significant movement, reads a predefined number of samples, normalizes the data, and runs inference using a pre-trained model to classify the gestures "punch" and "flex". The results are printed to the Serial Monitor as percentages for each gesture.
