@@ -3,7 +3,7 @@
   This sketch demonstrates the use of the MicroTFLite library to recognize the two gestures "punch" and "flex"
   through readings from the IMU sensor integrated into the Arduino Nano 33 BLE board.
   This example is an updated variation of the famous tutorial created by Don Coleman, Sandeep Mistry,
-  and Dominic Pajak in 2019.
+  and Dominic Pajak in 2019. This version was adapted and simplified by (based on original work by Chirale)
   Along with the sketch, the file model.h is included, which contains a pre-trained model.
 
   The sketch was created and tested on Arduino Nano 33 BLE rev 1 and rev 2 boards, but it can be adapted
