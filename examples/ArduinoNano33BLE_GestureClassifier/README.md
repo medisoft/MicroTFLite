@@ -1,6 +1,6 @@
 # Arduino Nano 33 BLE Gesture Classifier
 
-This example provides an updated and working version of the sketch IMU_Classifier presented in the official Arduino tutorial "*Get Started With Machine Learning on Arduino*" that you can [view here](https://docs.arduino.cc/tutorials/nano-33-ble-sense/get-started-with-machine-learning/).
+This example provides an updated and working version of the sketch IMU*Classifier presented in the official Arduino tutorial "\_Get Started With Machine Learning on Arduino*" that you can [view here](https://docs.arduino.cc/tutorials/nano-33-ble-sense/get-started-with-machine-learning/).
 
 The sketch has been rewritten to work with the updated version of the TensorFlow Lite Micro library through the **ArduTFLite** library APIs. The original tutorial explains the process of collecting training data and how the model was created and trained. The model.h file included in this example was pre-trained by Chirale during the preparation activities for our TinyML workshop on Arduino.
 
@@ -13,14 +13,14 @@ The sketch has several key parts, each explained below:
 ```cpp
 /*
   Gesture Classifier
-  This sketch demonstrates the use of the ArduTFLite library to recognize the two gestures "punch" and "flex" 
-  through readings from the IMU sensor integrated into the Arduino Nano 33 BLE board. 
-  This example is an updated variation of the famous tutorial created by Don Coleman, Sandeep Mistry, 
-  and Dominic Pajak in 2019. 
+  This sketch demonstrates the use of the ArduTFLite library to recognize the two gestures "punch" and "flex"
+  through readings from the IMU sensor integrated into the Arduino Nano 33 BLE board.
+  This example is an updated variation of the famous tutorial created by Don Coleman, Sandeep Mistry,
+  and Dominic Pajak in 2019.
   Along with the sketch, the file model.h is included, which contains a pre-trained model.
 
-  The sketch was created and tested on Arduino Nano 33 BLE rev 1 and rev 2 boards, but it can be adapted 
-  to run on other boards, compatible with the library, which have an IMU sensor connected with a sampling 
+  The sketch was created and tested on Arduino Nano 33 BLE rev 1 and rev 2 boards, but it can be adapted
+  to run on other boards, compatible with the library, which have an IMU sensor connected with a sampling
   frequency close to 100 Hz.
 
   CIRCUIT: Arduino Nano 33 BLE Rev.1 or Rev.2
@@ -28,11 +28,13 @@ The sketch has several key parts, each explained below:
   USAGE: uncomment IMU sensor library, according to your board revision, compile, load and open serial monitor
          keep the board in your hand and do a gesture!
 
-  
+
   This example code is in the public domain.
 */
 ```
+
 ### Comments
+
 - **Purpose**: Explains that the sketch classifies "punch" and "flex" gestures using the ArduTFLite library and IMU sensor data.
 - **Origin**: Mentions that this is an updated version of a tutorial by Don Coleman, Sandeep Mistry, and Dominic Pajak.
 - **Model**: Indicates that the pre-trained model is included in `model.h`.
@@ -46,6 +48,7 @@ The sketch has several key parts, each explained below:
 //#include <Arduino_LSM9DS1.h> // IMU Sensor Library for Arduino Nano 33 BLE Rev.1
 #include <Arduino_BMI270_BMM150.h> // IMU Sensor Library for Arduino Nano 33 BLE Rev.2
 ```
+
 - **IMU Libraries**: Depending on the board revision, either `Arduino_LSM9DS1` for rev 1 or `Arduino_BMI270_BMM150` for rev 2 is included.
 
 ### Library and Model Includes
@@ -54,6 +57,7 @@ The sketch has several key parts, each explained below:
 #include <ArduTFLite.h>
 #include "model.h"
 ```
+
 - **ArduTFLite**: Includes the main ArduTFLite library.
 - **Model**: Includes the pre-trained model header file.
 
@@ -62,13 +66,14 @@ The sketch has several key parts, each explained below:
 ```cpp
 const float accelerationThreshold = 2.5; // Threshold (in G values) to detect a "gesture" start
 const int numSamples = 119; // Number of samples for a single gesture
-int samplesRead; // Sample counter 
+int samplesRead; // Sample counter
 const int inputLength = 714; // Dimension of input tensor (6 values * 119 samples)
 constexpr int tensorArenaSize = 8 * 1024; // Tensor Arena size
 alignas(16) byte tensorArena[tensorArenaSize]; // Tensor Arena memory
 const char* GESTURES[] = { "punch", "flex" }; // Gesture labels
 #define NUM_GESTURES (sizeof(GESTURES) / sizeof(GESTURES[0])) // Number of gestures
 ```
+
 - **accelerationThreshold**: Defines the threshold to detect the start of a gesture.
 - **numSamples**: Number of samples taken for a single gesture.
 - **samplesRead**: Counter for the number of samples read.
@@ -101,13 +106,17 @@ void setup() {
 
   Serial.println();
   Serial.println("Init model..");
-  if (!modelInit(model, tensorArena, tensorArenaSize)){
+  if (!ModelInit(model, tensorArena, tensorArenaSize)){
     Serial.println("Model initialization failed!");
     while(true);
   }
   Serial.println("Model initialization done.");
+  ModelPrintMetadata();
+  ModelPrintTensorQuantizationParams();
+  ModelPrintTensorInfo();
 }
 ```
+
 - **Serial Communication**: Initializes serial communication and waits for the Serial Monitor to open.
 - **IMU Initialization**: Initializes the IMU sensor and prints the sampling frequencies of the accelerometer and gyroscope.
 - **Model Initialization**: Initializes the TensorFlow Lite model and prints a success message or stops the program if initialization fails.
@@ -150,21 +159,21 @@ void loop() {
       gX = (gX + 2000.0) / 4000.0;
       gY = (gY + 2000.0) / 4000.0;
       gZ = (gZ + 2000.0) / 4000.0;
-      
+
       // put the 6 values of current sample in the proper position
       // in the input tensor of the model
-      modelSetInput(aX, samplesRead * 6 + 0);
-      modelSetInput(aY, samplesRead * 6 + 1);
-      modelSetInput(aZ, samplesRead * 6 + 2); 
-      modelSetInput(gX, samplesRead * 6 + 3);
-      modelSetInput(gY, samplesRead * 6 + 4);
-      modelSetInput(gZ, samplesRead * 6 + 5); 
-      
+      ModelSetInput(aX, samplesRead * 6 + 0);
+      ModelSetInput(aY, samplesRead * 6 + 1);
+      ModelSetInput(aZ, samplesRead * 6 + 2);
+      ModelSetInput(gX, samplesRead * 6 + 3);
+      ModelSetInput(gY, samplesRead * 6 + 4);
+      ModelSetInput(gZ, samplesRead * 6 + 5);
+
       samplesRead++;
-      
+
       // if all samples are got, run inference
       if (samplesRead == numSamples) {
-        if(!modelRunInference()){
+        if(!ModelRunInference()){
           Serial.println("RunInference Failed!");
           return;
         }
@@ -173,7 +182,7 @@ void loop() {
         for (int i = 0; i < NUM_GESTURES; i++) {
           Serial.print(GESTURES[i]);
           Serial.print(": ");
-          Serial.print(modelGetOutput(i)*100, 2);
+          Serial.print(ModelGetOutput(i)*100, 2);
           Serial.println("%");
         }
         Serial.println();
@@ -182,6 +191,7 @@ void loop() {
   }
 }
 ```
+
 - **Waiting for Movement**: Continuously checks for significant movement by reading accelerometer values and computing the absolute value of total acceleration. If the acceleration exceeds the threshold, it starts reading gesture samples.
 - **Reading Samples**: Reads accelerometer and gyroscope values, normalizes the data, and stores it in the model's input tensor. Continues reading until the required number of samples is collected.
 - **Running Inference**: Once all samples are collected, runs the model inference and prints the output percentages for each gesture.
