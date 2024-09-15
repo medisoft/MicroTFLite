@@ -1,6 +1,6 @@
 /* Copyright 2024 John O'Sullivan, TensorFlow Authors. All Rights Reserved.
 
-It shows how to use ArduTFlite Library to run a TensorFlow Lite model.
+It shows how to use MicroTFLite Library to run a TensorFlow Lite model.
 
 For more information read the library documentation
 at: https://github.com/johnosbb/MicroTFLite
