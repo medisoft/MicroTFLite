@@ -1,7 +1,8 @@
 # MicroTFLite
 
 
-![image](https://github.com/user-attachments/assets/2d2f9382-7fc7-4c25-a1b7-19f750c923ab)
+![image](https://github.com/user-attachments/assets/9c2bd0e8-b827-4340-9ab9-8c6f60741699)
+
 
 ## A TensorFlow Lite Micro Library in Arduino Style
 
