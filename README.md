@@ -1,15 +1,11 @@
 # MicroTFLite
 
-
 ![image](https://github.com/user-attachments/assets/9c2bd0e8-b827-4340-9ab9-8c6f60741699)
-
 
 ## A TensorFlow Lite Micro Library in Arduino Style
 
 This library simplifies the use of **TensorFlow Lite Micro** on Arduino boards, offering APIs in the typical _Arduino style_. It avoids the use of _pointers_ or other C++ syntactic constructs that are discouraged within an Arduino sketch.
-It was inspired in large part by [ArduTFLite](https://github.com/spaziochirale/ArduTFLite) but includes the latest tensor flow code. It is more geared towards those who require Arduino style APIs and who wish to learn about the process of deploying **TensorFlow** models on constrained edge devices. It provides a number of functions that provide insight into the process of deploying models and these functions are particularly useful in debugging issues with models.
-
-It can work with quantized data or raw float values, detecting the appropriate processing depending on the models meta data.
+It was inspired in large part by [ArduTFLite](https://github.com/spaziochirale/ArduTFLite) but includes the latest tensor flow code; it can also work with quantized data or raw float values, detecting the appropriate processing depending on the models meta data. It is more geared towards those who require Arduino style APIs and who wish to learn about the process of deploying **TensorFlow** models on constrained edge devices. It provides a number of functions that provide insight into the process of deploying models and these functions are particularly useful in debugging issues with models.
 
 **MicroTFLite** is designed to enable experimentation with **Tiny Machine Learning** on Arduino boards with constrained resources, such as **Arduino Nano 33 BLE**, **Arduino Nano ESP32**, **Arduino Nicla**, **Arduino Portenta**, **ESP32 based devices** and **Arduino Giga R1 WiFi**. Usage is simple and straightforward and You don't need an extensive TensorFlow expertise to code your sketches and the library provides an extensive API that allows you explore the internal meta data of the model.
 
