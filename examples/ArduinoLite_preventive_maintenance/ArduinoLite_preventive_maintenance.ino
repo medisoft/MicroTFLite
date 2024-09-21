@@ -49,7 +49,7 @@ int falsePositives = 0;
 int trueNegatives = 0;
 int falseNegatives = 0;
 float rollingAccuracy = 0.0f;
-bool showStatistics = false;
+bool showStatistics = true;
 
 constexpr int kTensorArenaSize = 4 * 1024;
 alignas(16) uint8_t tensorArena[kTensorArenaSize];
