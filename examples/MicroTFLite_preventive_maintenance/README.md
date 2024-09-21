@@ -99,7 +99,7 @@ In a typical workflow, after loading the quantized model onto the board and runn
 
 ```cpp
 // Run inference with the quantized model
-bool inferenceResult = modelRunInference();
+bool inferenceResult = ModelRunInference();
 
 // Validate the results using checkFailureConditions
 if (!checkFailureConditions()) {
