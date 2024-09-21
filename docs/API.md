@@ -49,16 +49,16 @@ _Invokes the TensorFlow Lite Micro Interpreter and executes the inference algori
 
 ### **Function**
 
-**float ModelGetOutput(int index);**
+**float ModelGetOutput(int index, bool showQuantizedValue = false);**
 
 _Returns the output value from the position `index` of the output tensor, automatically handling dequantization if the tensor is of type `int8`._
 
 **Parameters:**
 
 - `index`: The position in the output tensor from which to retrieve the result.
-
-**Returns:**  
-The output value from the tensor, or `-1` if there was an error.
+- `showQuantizedValue`: (Optional) If `true`, prints the quantized value for debugging purposes.
+- **Returns:**  
+  The output value from the tensor, or `-1` if there was an error.
 
 ---
 

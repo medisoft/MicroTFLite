@@ -17,7 +17,7 @@ bool ModelSetInput(float inputValue, int index, bool showQuantizedValue = false)
 bool ModelRunInference();
 
 // Retrieves the output value from the model
-float ModelGetOutput(int index);
+float ModelGetOutput(int index, bool showQuantizedValue = false);
 
 // Prints the dimensions of the input tensor
 void ModelPrintInputTensorDimensions();

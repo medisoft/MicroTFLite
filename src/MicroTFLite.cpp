@@ -105,13 +105,13 @@ void ModelPrintTensorQuantizationParams()
 
     Serial.println("Input Tensor Quantization Parameters:");
     Serial.print("Scale: ");
-    Serial.println(tflInputScale);
+    Serial.println(tflInputScale,10);
     Serial.print("Zero Point: ");
     Serial.println(tflInputZeroPoint);
 
     Serial.println("Output Tensor Quantization Parameters:");
     Serial.print("Scale: ");
-    Serial.println(tflOutputScale);
+    Serial.println(tflOutputScale,10);
     Serial.print("Zero Point: ");
     Serial.println(tflOutputZeroPoint);
 }
@@ -155,7 +155,11 @@ bool ModelSetInput(float inputValue, int index, bool showQuantizedValue)
             Serial.print(" : ");
             Serial.print(quantizedValue);
             Serial.print(" , input : ");
-            Serial.println(inputValue);
+            Serial.print(inputValue);
+            Serial.print(" using scale: ");
+            Serial.print(tflInputScale);
+            Serial.print(" and zero-point: ");
+            Serial.println(tflInputZeroPoint);
         }
     }
     else if (tflInputTensor->type == kTfLiteFloat32)
@@ -225,7 +229,7 @@ bool ModelRunInference()
 }
 
 // Retrieves the output value from the model
-float ModelGetOutput(int index)
+float ModelGetOutput(int index, bool showQuantizedValue)
 {
     if (tflOutputTensor == nullptr || index >= tflOutputTensor->dims->data[1])
     {
@@ -236,6 +240,19 @@ float ModelGetOutput(int index)
     if (tflOutputTensor->type == kTfLiteInt8)
     {
         int8_t quantizedValue = tflOutputTensor->data.int8[index];
+        // Print the quantized value if requested
+        // Print the quantized value, scale, and zero point if requested
+        if (showQuantizedValue)
+        {
+            Serial.print("Quantized value for output index ");
+            Serial.print(index);
+            Serial.print(": ");
+            Serial.print(quantizedValue);
+            Serial.print(" using scale: ");
+            Serial.print(tflOutputScale,10);
+            Serial.print(" and zero-point: ");
+            Serial.println(tflOutputZeroPoint);
+        }
         return DequantizeOutput(quantizedValue, tflOutputScale, tflOutputZeroPoint);
     }
     else if (tflOutputTensor->type == kTfLiteFloat32)
