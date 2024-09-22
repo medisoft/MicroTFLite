@@ -56,6 +56,11 @@ The examples included with the library show how to use the library. The examples
 10. **Run Inference**: Invoke the inference operation using the `ModelRunInference()` function.
 11. **Read Output Data**: Read the output data using the `ModelGetOutput()` function.
 
+## Tensorflow versus TensorFlow-Lite
+
+The difference between TensorFlow Lite and TensorFlow Lite for Microcontrollers is the platforms they target. TFLite is targeted at mobile use cases, such as Android & iOS devices. As the name suggests, TFLite-Micro is aimed at low-power microcontrollers and digital signal processors for embedded use cases. These can even be baremetal use cases, as TFLite-Micro has no dependencies on an operating system. MicroTFLite is built on top of TFLite-Micro.
+
+
 ### GitHub
 
 The officially supported TensorFlow Lite Micro library for Arduino resides in the [tflite-micro-arduino-examples](https://github.com/tensorflow/tflite-micro-arduino-examples). This library is a fork of that project with the necessary refactoring required to allow the code build in an Arduino IDE environment. The latest version of this library can be found in the repository [MicroTFLite](https://github.com/johnosbb/MicroTFLite)
