@@ -9,6 +9,9 @@ It was inspired in large part by [ArduTFLite](https://github.com/spaziochirale/A
 
 **MicroTFLite** is designed to enable experimentation with **Tiny Machine Learning** on Arduino boards with constrained resources, such as **Arduino Nano 33 BLE**, **Arduino Nano ESP32**, **Arduino Nicla**, **Arduino Portenta**, **ESP32 based devices** and **Arduino Giga R1 WiFi**. Usage is simple and straightforward and You don't need an extensive TensorFlow expertise to code your sketches and the library provides an extensive API that allows you explore the internal meta data of the model.
 
+![image](https://github.com/user-attachments/assets/a963ff73-9629-490a-ad5c-0a3d081f0162)
+
+
 ## Architecture
 
 MicroTFLite consists of an Arduino style abstraction called **MicroTFLite** and a port of TensorFlow Lite for Arduino type boards.
